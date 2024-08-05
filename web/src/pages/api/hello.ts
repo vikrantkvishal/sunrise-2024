@@ -38,7 +38,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
       }
 
       case "PATCH": {
-        const { id, completed } = req.body;
+        const { id } = req.body;
         completeTask(id);
         res.status(200).json({ message: "Task completed!" });
         break;
