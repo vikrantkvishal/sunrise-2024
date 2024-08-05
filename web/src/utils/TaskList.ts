@@ -1,9 +1,7 @@
-
-
 import Task from '../model/Task';
 
 export const initialTasks: Task[] = [
-  new Task(1, 'Initial Setup', 'Set up the development environment.', 'Intern', 1),
+  new Task(1, 'Initial Setup', 'Set up the development environment.', 'Intern', 1, false),
   new Task(2, 'Basic Introduction', 'Complete the introductory module.', 'Intern', 1),
   new Task(3, 'Basic Git', 'Learn basic Git commands.', 'Intern', 2),
   new Task(4, 'Git Collaboration', 'Collaborate on a Git repository.', 'Intern', 2),
