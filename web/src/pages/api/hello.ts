@@ -4,7 +4,6 @@ import {
   getActiveTasks,
   getCompletedTasks,
   getAllTasks,
-  completeTask,
   createTask,
   updateTask,
   deleteTask,
@@ -17,7 +16,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
   initializeTasks(); 
 
   switch (req.method) {
-    case "GET":
+    case "GET": {
       const { type } = req.query;
       if (type === "active") {
         res.status(200).json(getActiveTasks());
@@ -27,8 +26,9 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
         res.status(200).json(getAllTasks());
       }
       break;
+    }
 
-    case "POST":
+    case "POST": {
       const { title, description, persona, group } = req.body;
       if (title && description && persona && group !== undefined) {
         createTask(title, description, persona, Number(group));
@@ -37,8 +37,9 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
         res.status(400).json({ message: "Missing required fields" });
       }
       break;
+    }
 
-    case "PUT":
+    case "PUT": {
       const { id, ...updatedTask } = req.body;
       if (id !== undefined) {
         updateTask(Number(id), updatedTask);
@@ -47,8 +48,9 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
         res.status(400).json({ message: "Missing task ID" });
       }
       break;
+    }
 
-    case "DELETE":
+    case "DELETE": {
       const { id: taskId } = req.query;
       if (taskId !== undefined) {
         deleteTask(Number(taskId));
@@ -57,9 +59,11 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
         res.status(400).json({ message: "Missing task ID" });
       }
       break;
+    }
 
     default:
       res.setHeader("Allow", ["GET", "POST", "PUT", "DELETE"]);
       res.status(405).end(`Method ${req.method} Not Allowed`);
   }
+
 }

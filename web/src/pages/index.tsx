@@ -14,10 +14,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  IconButton,
-  Snackbar,
 } from "@mui/material";
-import { Close as CloseIcon } from "@mui/icons-material";
 
 const inter = Inter({ subsets: ["latin"] });
 
