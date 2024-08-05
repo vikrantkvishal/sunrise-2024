@@ -72,7 +72,7 @@ export default function Home() {
       });
 
       if (res.ok) {
-        fetchTasks(); // Fetch tasks after creation
+        fetchTasks();
 
         setCreateTitle("");
         setCreateDescription("");

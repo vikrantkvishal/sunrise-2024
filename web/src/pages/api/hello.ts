@@ -23,46 +23,43 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
         if (type === "active") {
           res.status(200).json(getActiveTasks());
         } else if (type === "completed") {
+          console.log('Fetching completed tasks');
           res.status(200).json(getCompletedTasks());
         } else {
           res.status(200).json(getAllTasks());
         }
         break;
       }
-
       case "POST": {
         const { title, description, persona, group } = req.body;
-        createTask(title, description, persona, group);
-        res.status(201).json({ message: "Task created successfully!" });
+        createTask(title, description, persona, Number(group));
+        res.status(201).json({ message: "Task created successfully" });
         break;
       }
-
       case "PATCH": {
         const { id } = req.body;
         completeTask(id);
-        res.status(200).json({ message: "Task completed!" });
+        res.status(200).json({ message: "Task marked as complete" });
         break;
       }
-
       case "PUT": {
-        const updatedTask = req.body;
-        updateTask(updatedTask.id, updatedTask);
-        res.status(200).json({ message: "Task updated successfully!" });
+        const { id, ...updatedTask } = req.body;
+        updateTask(Number(id), updatedTask);
+        res.status(200).json({ message: "Task updated successfully" });
         break;
       }
-
       case "DELETE": {
         const { id } = req.query;
         deleteTask(Number(id));
-        res.status(200).json({ message: "Task deleted successfully!" });
+        res.status(200).json({ message: "Task deleted successfully" });
         break;
       }
-
-      default:
+      default: {
         res.setHeader("Allow", ["GET", "POST", "PATCH", "PUT", "DELETE"]);
-        res.status(405).end(`Method ${req.method} Not Allowed`);
+        res.status(405).end(`Method ${req.method} not allowed`);
+      }
     }
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 }

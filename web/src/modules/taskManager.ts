@@ -24,13 +24,21 @@ export function getAllTasks(): Task[] {
     return tasks;
 }
 
-export function completeTask(taskId: number): void {
-    const task = tasks.find(task => task.id === taskId);
+export function completeTask(identifier: number | string): void {
+    let task: Task | undefined;
+
+    if (typeof identifier === 'number') {
+        task = tasks.find(task => task.id === identifier);
+    } else if (typeof identifier === 'string') {
+        task = tasks.find(task => task.title === identifier);
+    }
+
     if (task) {
         task.completed = true;
 
-        const currentGroupTasks = tasks.filter(t => t.group === task.group && !t.completed);
-        if (currentGroupTasks.length === 0) {
+        const nextTaskInGroup = tasks.find(t => t.group === task.group && !t.completed);
+        if (!nextTaskInGroup) {
+
             const nextGroupTasks = tasks.filter(t => t.group === task.group + 1 && !t.completed);
             if (nextGroupTasks.length > 0) {
                 nextGroupTasks[0].completed = false;
